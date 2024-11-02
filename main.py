@@ -93,3 +93,37 @@ if __name__ == '__main__':
     print(str(std2))
 
 # 这是单行注释 访问 https://www.jetbrains.com/help/pycharm/ 获取 PyCharm 帮助
+
+"""
+from sqlalchemy import create_engine, Column, Integer, String
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
+ 
+# 定义模型
+Base = declarative_base()
+class User(Base):
+    __tablename__ = 'users'
+    
+    id = Column(Integer, primary_key=True)
+    name = Column(String)
+    age = Column(Integer)
+ 
+# 连接数据库
+engine = create_engine('sqlite:///example.db')
+Base.metadata.create_all(engine)
+Session = sessionmaker(bind=engine)
+session = Session()
+ 
+# 按年龄升序排序
+users_ascending = session.query(User).order_by(User.age.asc()).all()
+ 
+# 按年龄降序排序
+users_descending = session.query(User).order_by(User.age.desc()).all()
+ 
+# 打印结果
+for user in users_ascending:
+    print(f"ID: {user.id}, Name: {user.name}, Age: {user.age}")
+ 
+for user in users_descending:
+    print(f"ID: {user.id}, Name: {user.name}, Age: {user.age}")
+"""
