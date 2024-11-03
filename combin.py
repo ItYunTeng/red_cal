@@ -16,14 +16,22 @@ def calc_ac_value(numbers):
 
 
 def clc_combin(els, num):
+    reds = []
     for c in itertools.combinations(els, num):
         c = sorted(c)
         ac = calc_ac_value(c)
-        if ac == 10:
+        if ac > 8:
             re = ','.join(str(v) for v in c)
-            print(re, "||", ac)
+            red = re + '||' + str(ac) + "\n"
+            reds.append(red)
+    # 打开文件，并写入内容
+    with open("files/ac.txt", "w") as f:
+        f.writelines(reds)
 
 
-items = [3, 6, 8, 10, 11, 12, 13, 15, 20, 21, 25, 28, 33]
+items = [
+    1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24,
+    25, 26, 27, 29, 30, 31, 32, 33
+]
 r = 6
 clc_combin(items, r)
