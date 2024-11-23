@@ -20,7 +20,7 @@ def clc_combin(els, num):
     for c in itertools.combinations(els, num):
         c = sorted(c)
         ac = calc_ac_value(c)
-        if ac > 8:
+        if ac <= 8 or ac >= 6:
             re = ','.join(str(v) for v in c)
             red = re + '||' + str(ac) + "\n"
             reds.append(red)
@@ -30,8 +30,7 @@ def clc_combin(els, num):
 
 
 items = [
-    1, 2, 3, 4, 5, 6, 9, 10, 11, 12, 13, 14, 15, 16, 19, 20, 21, 22, 23, 24,
-    25, 26, 27, 29, 30, 31, 32, 33
+    10, 20, 30, 1, 11, 21, 31, 2, 12, 22, 32, 3, 13, 23, 33, 6, 16, 26, 9, 19, 29, 4, 14, 24, 8, 18, 28
 ]
 r = 6
 clc_combin(items, r)
