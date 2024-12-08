@@ -26,6 +26,7 @@ def ac_diff(numbers):
         raise ValueError("need input six red bool")
     numbers = sorted(numbers)
     diffs = []
+    #获取索引
     for i in range(len(numbers)):
         for j in range(i + 1, len(numbers)):
             diffs.append((numbers[j] - numbers[i]) % 10)
@@ -36,14 +37,16 @@ def and_diff(numbers):
     if len(numbers) != 6:
         raise ValueError("need input six red bool")
     numbers = sorted(numbers)
-    return [(numbers[1] - numbers[0]) % 10, (numbers[3] - numbers[2]) % 10, (numbers[5] - numbers[4]) % 10]
+    return [(numbers[1] - numbers[0]) % 10, (numbers[3] - numbers[2]) % 10,
+            (numbers[5] - numbers[4]) % 10]
 
 
 def split_diff(numbers):
     if len(numbers) != 6:
         raise ValueError("need input six red bool")
     numbers = sorted(numbers)
-    return [(numbers[5] - numbers[0]) % 10, (numbers[4] - numbers[1]) % 10, (numbers[3] - numbers[2]) % 10]
+    return [(numbers[5] - numbers[0]) % 10, (numbers[4] - numbers[1]) % 10,
+            (numbers[3] - numbers[2]) % 10]
 
 
 def formula_diff(numbers, add):
@@ -55,6 +58,16 @@ def formula_diff(numbers, add):
         diff.append((math.floor((add - v) / v)) % 10)
 
     return diff
+
+
+def zero_model(numbers):
+    if len(numbers) != 6:
+        raise ValueError("need input six red bool")
+    numbers = sorted(numbers)
+    model = []
+    for v in numbers:
+        model.append(v % 3)
+    return model
 
 
 def model_val(add):
@@ -89,10 +102,10 @@ def get_datas():
     if table is None:
         raise ValueError("文档不存在")
 
-    rows = [
-        ['期数', '星期', '红球', '篮球', '和值', 'AC', '分列差', '并列差', '公式差', '取模直',
-         '非AC尾']
-    ]
+    rows = [[
+        '期数', '星期', '红球', '篮球', '和值', 'AC', '分列差', '并列差', '公式差', '取模直', '非AC尾',
+        '012路'
+    ]]
     tbody = table.find_all('tbody')
     trs = tbody[0].find_all('tr')
 
@@ -102,7 +115,8 @@ def get_datas():
         week = data[2].getText()
         add = data[57].getText()
         model_vals = model_val(int(add))
-        blue = int(tr.find_all('td', attrs={'class', 'chartball02'})[0].getText())
+        blue = int(
+            tr.find_all('td', attrs={'class', 'chartball02'})[0].getText())
 
         tds = tr.find_all(name='td', class_=['chartball01', 'chartball20'])
         if len(tds) == 0:
@@ -119,10 +133,14 @@ def get_datas():
         and_diffs = and_diff(reds)
         split_diffs = split_diff(reds)
         formula_diffs = formula_diff(reds, int(add))
+        zero_models = zero_model(reds)
         # add_ac_ends = list(set(ac_diffs + and_diffs + split_diffs + formula_diffs + model_vals))
-        add_ends = list(set(and_diffs + split_diffs + formula_diffs + model_vals))
-        rows.append(
-            [cic, week, reds, blue, add, ac, split_diffs, and_diffs, formula_diffs, model_vals, add_ends])
+        add_ends = list(
+            set(and_diffs + split_diffs + formula_diffs + model_vals))
+        rows.append([
+            cic, week, reds, blue, add, ac, split_diffs, and_diffs,
+            formula_diffs, model_vals, add_ends, zero_models
+        ])
     print(rows)
     save_data(rows)
 
